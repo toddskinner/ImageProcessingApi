@@ -1,0 +1,11 @@
+import express from 'express';
+
+// since not a function that is part of Express, it does not have type definitions by default. 
+// So we have to add them.
+const loggerMain = (req: express.Request, res: express.Response, next: Function): void => {
+    let url = req.url;
+    console.log(`Main was visited`);
+    next();
+};
+
+export default loggerMain;
