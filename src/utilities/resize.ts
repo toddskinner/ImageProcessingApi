@@ -6,10 +6,6 @@ const resize = async (
   width: number,
   height: number
 ): Promise<string> => {
-  console.log('resizeImage function called');
-  console.log('File to be resized:' + inputfile);
-  console.log('New thumb path:' + outputPath);
-
   // https://sharp.pixelplumbing.com/api-constructor
 
   try {

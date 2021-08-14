@@ -7,9 +7,6 @@ import fs from 'fs';
 const routes = express.Router();
 
 routes.get('/', async (req, res) => {
-  console.log('main api route');
-  console.log('dirname: ' + __dirname);
-
   let providedWidth: number = parseInt(req.query.width as string);
   console.log('Provided width = ' + providedWidth);
   let providedHeight: number = parseInt(req.query.height as string);
@@ -90,6 +87,7 @@ routes.get('/', async (req, res) => {
   }
 });
 
+// unused, for reference
 routes.use('/thumbs', thumbsCollection);
 
 // Notes if add frontend:
