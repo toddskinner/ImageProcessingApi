@@ -1,57 +1,60 @@
 import express from 'express';
-import loggerMain from '../../../utilities/loggerMain';
-// import fullsize from './fullsize';
-import thumbs from './thumbs';
-import resizer from '../../../utilities/resizer';
-import { promises as fsPromises } from 'fs';
-import csv from 'csvtojson';
+import thumbsCollection from './thumbsCollection';
+import resize from '../../../utilities/resize';
 import path from 'path';
+import fs from 'fs';
 
 const routes = express.Router();
-const inputFile = './users.csv';
-const outputFile = 'users.json';
-const sharp = require('sharp');
 
-console.log(path.join(__dirname+'/public'));
-routes.use(express.static(path.join(__dirname+'/public')));
+routes.get('/', async (req, res) => {
 
-routes.get('/', loggerMain, (req, res) => {
-    // res.send('main api route - fullsize images');
-    console.log('main api route - fullsize images');
-    // res.sendFile(path.join(__dirname, '../../../../public', 'index.html'));
-    res.sendFile(path.join(__dirname+'/public/index.html'));
+    console.log('main api route');
+    console.log("dirname: " + __dirname);
+
+    let fileExists: boolean; 
+    let url = req.url;
+    console.log("url: " + url);
+
+    let providedWidth = parseInt(req.query.width as string);
+    console.log('Provided width = ' + providedWidth);
+    let providedHeight = parseInt(req.query.height as string);
+    console.log('Provided height = ' + providedHeight);
+    let providedImageName = req.query.name as string;
+    
+    if( !providedImageName || !providedWidth || !providedHeight) {
+        return res.status(404).send("Please provide a name, a width and a height for the image in the url");  
+    } 
+
+    if( !(providedImageName === "santamonica" || providedImageName === "encenadaport" ||
+        providedImageName === "fjord" || providedImageName === "icelandwaterfall" ||
+        providedImageName === "palmtunnel") 
+    ) {
+        return res.status(404).send("Please provide one of the following valid names for the image in the url: santamonica, encenadaport, fjord, icelandwaterfall, palmtunnel");  
+    }
+    
+    let fullImagePath: string = path.join(__dirname + '/full/' + providedImageName + '.jpg');
+    let queriedThumbPath: string = path.join(__dirname + '/thumbs/' + providedImageName 
+        + '_' + req.query.height + 'x' + req.query.width + '.jpg');
+    console.log('queriedThumbPath: ' + queriedThumbPath);
+
+    // https://flaviocopes.com/how-to-check-if-file-exists-node/
+
+    if (fs.existsSync(queriedThumbPath)) {
+        console.log('file exists');
+        //file exists
+        res.status(200).sendFile(queriedThumbPath);
+    } else {
+        //file does not exist
+        let newThumbImage = await resize(fullImagePath, queriedThumbPath, providedHeight, providedWidth);
+        res.status(200).sendFile(newThumbImage);
+    }
 });
 
-// define a route handler for the default home page
-routes.get('/convert', (req, res) => {
-    res.send('converting in process!');
-    csv()
-        .fromFile(inputFile)
-        .then((data)=> {
-            let newData = data.map( (item: {
-                first_name: string; last_name: string; phone: string; }) => {
-                    let first = item.first_name;
-                    let last = item.last_name;
-                    let phone = item.phone;
-                    if(item.phone === ""){
-                        phone = "missing data";
-                    }
-                    return {first, last, phone};
-                });
-                fsPromises.writeFile(outputFile, JSON.stringify(newData));
-        });
-});
+routes.use('/thumbs', thumbsCollection);
 
-// fullsize.get('/', loggerFullsize, (req, res) => {
-//     res.send('Fullsize logged route');
-// });
-
-routes.get('/resize', resizer, (req, res) => {
-    res.send('resizing in process!');
-    // res.sendFile(path.join(__dirname, '../../../../public', 'resize.html'));
-});
-
-// routes.use('/fullsize', fullsize);
-routes.use('/thumbs', thumbs);
+// Notes if add frontend:
+// https://expressjs.com/en/starter/static-files.html
+// https://stackoverflow.com/questions/25166726/express-serves-index-html-even-when-my-routing-is-to-a-different-file
+// routes.use(express.static(path.join(__dirname+'/public')));
 
 export default routes;
