@@ -44,18 +44,16 @@ var resize = express_1.default.Router();
 var resizeImage_1 = __importDefault(require("../../utilities/resizeImage"));
 var path_1 = __importDefault(require("path"));
 var fs_1 = __importDefault(require("fs"));
+var loggerResize_1 = __importDefault(require("../../utilities/loggerResize"));
+// https://www.digitalocean.com/community/tutorials/nodejs-how-to-use__dirname
 var directory = process.cwd();
-console.log('directory' + directory);
-console.log('__dirname: ' + __dirname);
-resize.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+resize.get('/', loggerResize_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var providedWidth, providedHeight, providedImageName, fullImagePath, queriedThumbPath, newThumbImage;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 providedWidth = parseInt(req.query.width);
-                console.log('Provided width = ' + providedWidth);
                 providedHeight = parseInt(req.query.height);
-                console.log('Provided height = ' + providedHeight);
                 providedImageName = req.query.name;
                 if (!providedImageName || !providedWidth || !providedHeight) {
                     return [2 /*return*/, res
@@ -90,9 +88,7 @@ resize.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                     'x' +
                     req.query.width +
                     '.jpg');
-                console.log('queriedThumbPath: ' + queriedThumbPath);
                 if (!fs_1.default.existsSync(queriedThumbPath)) return [3 /*break*/, 1];
-                console.log('file exists');
                 //file exists
                 res.status(200).sendFile(queriedThumbPath);
                 return [3 /*break*/, 3];

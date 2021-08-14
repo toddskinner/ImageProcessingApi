@@ -4,16 +4,14 @@ import resizeImage from '../../utilities/resizeImage';
 import path from 'path';
 import fs from 'fs';
 import { Request, Response } from 'express';
+import loggerResize from '../../utilities/loggerResize';
 
+// https://www.digitalocean.com/community/tutorials/nodejs-how-to-use__dirname
 const directory = process.cwd();
-console.log('directory' + directory);
-console.log('__dirname: ' + __dirname);
 
-resize.get('/', async (req: Request, res: Response) => {
+resize.get('/', loggerResize, async (req: Request, res: Response) => {
   const providedWidth: number = parseInt(req.query.width as string);
-  console.log('Provided width = ' + providedWidth);
   const providedHeight: number = parseInt(req.query.height as string);
-  console.log('Provided height = ' + providedHeight);
   const providedImageName: string = req.query.name as string;
 
   if (!providedImageName || !providedWidth || !providedHeight) {
@@ -52,10 +50,10 @@ resize.get('/', async (req: Request, res: Response) => {
       );
   }
 
-  let fullImagePath: string = path.join(
+  const fullImagePath: string = path.join(
     directory + '/images/full/' + providedImageName + '.jpg'
   );
-  let queriedThumbPath: string = path.join(
+  const queriedThumbPath: string = path.join(
     directory +
       '/images/thumbs/' +
       providedImageName +
@@ -65,17 +63,15 @@ resize.get('/', async (req: Request, res: Response) => {
       req.query.width +
       '.jpg'
   );
-  console.log('queriedThumbPath: ' + queriedThumbPath);
 
   // https://flaviocopes.com/how-to-check-if-file-exists-node/
 
   if (fs.existsSync(queriedThumbPath)) {
-    console.log('file exists');
     //file exists
     res.status(200).sendFile(queriedThumbPath);
   } else {
     //file does not exist
-    let newThumbImage = await resizeImage(
+    const newThumbImage = await resizeImage(
       fullImagePath,
       queriedThumbPath,
       providedHeight,

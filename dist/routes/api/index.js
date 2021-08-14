@@ -43,12 +43,11 @@ var express_1 = __importDefault(require("express"));
 var resize_1 = __importDefault(require("./resize"));
 // https://stackoverflow.com/questions/34508081/how-to-add-typescript-definitions-to-express-req-res
 var routes = express_1.default.Router();
-var directory = process.cwd();
 routes.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         return [2 /*return*/, res
                 .status(200)
-                .send('Please provide an image "name", a "width", and a "height" for resizing. The valid image names to choose from are santamonica, encenadaport, fjord, icelandwaterfall, and palmtunnel')];
+                .send('Please provide an image with query parameters of "name", "width", and "height" for resizing. The valid image names to choose from are "santamonica", "encenadaport", "fjord", "icelandwaterfall", and "palmtunnel"')];
     });
 }); });
 routes.use('/resize', resize_1.default);

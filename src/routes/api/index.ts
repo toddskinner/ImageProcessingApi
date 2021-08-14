@@ -5,7 +5,6 @@ import { Request, Response } from 'express';
 // https://stackoverflow.com/questions/34508081/how-to-add-typescript-definitions-to-express-req-res
 
 const routes = express.Router();
-const directory = process.cwd();
 
 routes.get('/', async (req: Request, res: Response) => {
   return res
