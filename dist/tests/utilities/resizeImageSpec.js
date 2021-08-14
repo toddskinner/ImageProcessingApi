@@ -39,17 +39,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var resize_1 = __importDefault(require("./resize"));
-// https://stackoverflow.com/questions/34508081/how-to-add-typescript-definitions-to-express-req-res
-var routes = express_1.default.Router();
+var resizeImage_1 = __importDefault(require("../../utilities/resizeImage"));
 var directory = process.cwd();
-routes.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        return [2 /*return*/, res
-                .status(200)
-                .send('Please provide an image "name", a "width", and a "height" for resizing. The valid image names to choose from are santamonica, encenadaport, fjord, icelandwaterfall, and palmtunnel')];
-    });
-}); });
-routes.use('/resize', resize_1.default);
-exports.default = routes;
+console.log('test directory: ' + directory);
+describe('test the resize function', function () {
+    var inputImage = directory + '/images/full/palmtunnel.jpg';
+    var outputImage = directory + '/images/thumbs/palmtunnel_500x500.jpg';
+    var height = 500;
+    var width = 500;
+    var invalidImage = directory + '/images/full/newyork.jpg';
+    it('should return the output image file', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var newThumbfile;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, resizeImage_1.default(inputImage, outputImage, width, height)];
+                case 1:
+                    newThumbfile = _a.sent();
+                    expect(newThumbfile).toBe(outputImage);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not return the output image file if params invalid', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var newThumbfile;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, resizeImage_1.default(invalidImage, outputImage, width, height)];
+                case 1:
+                    newThumbfile = _a.sent();
+                    expect(newThumbfile).toBe('error');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});

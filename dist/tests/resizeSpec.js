@@ -42,12 +42,64 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var supertest_1 = __importDefault(require("supertest"));
 var index_1 = __importDefault(require("../index"));
 var request = supertest_1.default(index_1.default);
-describe('test the initial endpoint', function () {
-    it('should get the right responses for the initial endpoint', function (done) { return __awaiter(void 0, void 0, void 0, function () {
+describe('test responses for each resize endpoint', function () {
+    it('should not get the api endpoint if no query params', function (done) { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/api')];
+                case 0: return [4 /*yield*/, request.get('/api/resize')];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(404);
+                    done();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not get the api endpoint if width param less than zero', function (done) { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/api/resize/?name=fjord&width=-1000&height=1000')];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(404);
+                    done();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not get the api endpoint if height param less than zero', function (done) { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/api/resize/?name=fjord&width=1000&height=-1000')];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(404);
+                    done();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should not get the api endpoint if image name param not valid', function (done) { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/api/resize/?name=oakland&width=1000&height=-1000')];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(404);
+                    done();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should get the image api endpoint if cached', function (done) { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/api/resize/?name=fjord&width=1000&height=1000')];
                 case 1:
                     response = _a.sent();
                     expect(response.status).toBe(200);

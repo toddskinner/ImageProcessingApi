@@ -39,56 +39,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var path_1 = __importDefault(require("path"));
 var sharp_1 = __importDefault(require("sharp"));
-var routes = express_1.default.Router();
-var fullPath = '/Users/toddskinner/FullstackCourse/ImageProcessingApi/src/routes/api/images/full/';
-var thumbPath = '/Users/toddskinner/FullstackCourse/ImageProcessingApi/src/routes/api/images/thumbs/';
-// const sharp = require('sharp');
-var fjordInput = 'fjord.jpg';
-var santamonicaInput = 'santamonica.jpg';
-var encenadaportInput = 'encenadaport.jpg';
-var icelandwaterfallInput = 'icelandwaterfall.jpg';
-var palmtunnelInput = 'palmtunnel.jpg';
-var resizeImage = function (inputfile, outputfile, width, height) { return __awaiter(void 0, void 0, void 0, function () {
-    var outputPath, error_1;
+var resizeImage = function (inputfile, outputPath, width, height) { return __awaiter(void 0, void 0, void 0, function () {
+    var error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log('resizeImage function called');
-                inputfile = path_1.default.join(fullPath + santamonicaInput);
-                console.log(inputfile);
-                outputPath = thumbPath + 'test.jpg';
-                _a.label = 1;
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, sharp_1.default(inputfile).resize(width, height).toFile(outputPath)];
             case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, sharp_1.default(inputfile)
-                        .resize(200, 400)
-                        .toFile(outputPath)];
-            case 2:
                 _a.sent();
-                return [3 /*break*/, 4];
-            case 3:
+                return [3 /*break*/, 3];
+            case 2:
                 error_1 = _a.sent();
-                alert(error_1.message);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                console.log(error_1.message);
+                outputPath = 'error';
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/, outputPath];
         }
     });
 }); };
 exports.default = resizeImage;
-// console.log('sharp route');
-//     let image = path.join(fullPath + santamonicaInput);
-//     console.log(image);
-//     let outputPath = thumbPath + 'test.jpg';
-//     const sharpData = async () => {    
-//         try {
-//             await sharp(image)
-//             .resize(200, 400)
-//             .toFile(outputPath);
-//         } catch(error) {
-//               alert(error.message)
-//         }
-//     }
-//     sharpData();

@@ -1,6 +1,6 @@
 import sharp from 'sharp';
 
-const resize = async (
+const resizeImage = async (
   inputfile: string,
   outputPath: string,
   width: number,
@@ -12,8 +12,9 @@ const resize = async (
     await sharp(inputfile).resize(width, height).toFile(outputPath);
   } catch (error) {
     console.log(error.message);
+    outputPath = 'error';
   }
   return outputPath;
 };
 
-export default resize;
+export default resizeImage;
