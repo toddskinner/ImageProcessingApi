@@ -8,8 +8,8 @@
     "build": "npx tsc",
     "jasmine": "jasmine",
     "start": "nodemon src/index.ts",
-    "lint": "eslint 'index.js'",
-    "prettier": "prettier --config .prettierrc '*.js' --write"
+    "lint": "eslint 'src/index.ts'",
+    "prettier": "prettier --write --config .prettierrc '**/*.ts'"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,8 @@
     "@types/node": "^16.4.14",
     "@types/sharp": "^0.28.5",
     "@types/supertest": "^2.0.11",
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",

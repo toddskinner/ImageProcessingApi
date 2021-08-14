@@ -41,7 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var thumbsCollection_1 = __importDefault(require("./thumbsCollection"));
-var resize_1 = __importDefault(require("../../../utilities/resize"));
+var resize_1 = __importDefault(require("../../utilities/resize"));
 var path_1 = __importDefault(require("path"));
 var fs_1 = __importDefault(require("fs"));
 var routes = express_1.default.Router();
@@ -62,6 +62,16 @@ routes.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             .status(404)
                             .send('Please provide a valid name, width and height for the image in the url')];
                 }
+                if (!(providedWidth > 0)) {
+                    return [2 /*return*/, res
+                            .status(404)
+                            .send('Please provide a positive value for the width of the image')];
+                }
+                if (!(providedHeight > 0)) {
+                    return [2 /*return*/, res
+                            .status(404)
+                            .send('Please provide a positive value for the height of the image')];
+                }
                 if (!(providedImageName === 'santamonica' ||
                     providedImageName === 'encenadaport' ||
                     providedImageName === 'fjord' ||
@@ -71,8 +81,10 @@ routes.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                             .status(404)
                             .send('Please provide one of the following valid names for the image in the url: santamonica, encenadaport, fjord, icelandwaterfall, palmtunnel')];
                 }
-                fullImagePath = path_1.default.join('images/full/' + providedImageName + '.jpg');
-                queriedThumbPath = path_1.default.join('images/thumbs/' +
+                fullImagePath = path_1.default.join('/Users/toddskinner/FullstackCourse/ImageProcessingApi/images/full/' +
+                    providedImageName +
+                    '.jpg');
+                queriedThumbPath = path_1.default.join('/Users/toddskinner/FullstackCourse/ImageProcessingApi/images/thumbs/' +
                     providedImageName +
                     '_' +
                     req.query.height +
@@ -92,9 +104,7 @@ routes.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                     res.status(200).sendFile(newThumbImage);
                 }
                 else {
-                    return [2 /*return*/, res
-                            .status(404)
-                            .send('Failed to create new thumbnail')];
+                    return [2 /*return*/, res.status(404).send('Failed to create new thumbnail')];
                 }
                 _a.label = 3;
             case 3: return [2 /*return*/];

@@ -39,28 +39,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var sharp_1 = __importDefault(require("sharp"));
-var resize = function (inputfile, outputPath, width, height) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                console.log('resizeImage function called');
-                console.log('File to be resized:' + inputfile);
-                console.log('New thumb path:' + outputPath);
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, sharp_1.default(inputfile).resize(width, height).toFile(outputPath)];
-            case 2:
-                _a.sent();
-                return [3 /*break*/, 4];
-            case 3:
-                error_1 = _a.sent();
-                console.log(error_1.message);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/, outputPath];
-        }
-    });
-}); };
-exports.default = resize;
+var resize_1 = __importDefault(require("../../utilities/resize"));
+describe('test the resize function', function () {
+    var inputImage = '/Users/toddskinner/FullstackCourse/ImageProcessingApi/images/full/palmtunnel.jpg';
+    var outputImage = '/Users/toddskinner/FullstackCourse/ImageProcessingApi/images/thumb/palmtunnel_500x500.jpg';
+    var height = 500;
+    var width = 500;
+    it('should return the output image file', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var newThumbfile;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, resize_1.default(inputImage, outputImage, width, height)];
+                case 1:
+                    newThumbfile = _a.sent();
+                    expect(newThumbfile).toBe(outputImage);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
