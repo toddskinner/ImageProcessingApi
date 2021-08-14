@@ -82,7 +82,7 @@ routes.get('/', async (req, res) => {
     if (newThumbImage) {
       res.status(200).sendFile(newThumbImage);
     } else {
-      return res.status(404).send('Failed to create new thumbnail');
+      return res.status(500).send('Failed to create new thumbnail');
     }
   }
 });
