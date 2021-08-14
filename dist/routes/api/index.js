@@ -45,18 +45,19 @@ var resize_1 = __importDefault(require("../../utilities/resize"));
 var path_1 = __importDefault(require("path"));
 var fs_1 = __importDefault(require("fs"));
 var routes = express_1.default.Router();
+var directory = process.cwd();
 routes.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var providedWidth, providedHeight, providedImageName, fullImagePath, queriedThumbPath, newThumbImage;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log('main api route');
-                console.log('dirname: ' + __dirname);
                 providedWidth = parseInt(req.query.width);
                 console.log('Provided width = ' + providedWidth);
                 providedHeight = parseInt(req.query.height);
                 console.log('Provided height = ' + providedHeight);
                 providedImageName = req.query.name;
+                console.log("directory" + directory);
+                console.log("__dirname: " + __dirname);
                 if (!providedImageName || !providedWidth || !providedHeight) {
                     return [2 /*return*/, res
                             .status(404)
@@ -104,13 +105,14 @@ routes.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                     res.status(200).sendFile(newThumbImage);
                 }
                 else {
-                    return [2 /*return*/, res.status(404).send('Failed to create new thumbnail')];
+                    return [2 /*return*/, res.status(500).send('Failed to create new thumbnail')];
                 }
                 _a.label = 3;
             case 3: return [2 /*return*/];
         }
     });
 }); });
+// unused, for reference
 routes.use('/thumbs', thumbsCollection_1.default);
 // Notes if add frontend:
 // https://expressjs.com/en/starter/static-files.html

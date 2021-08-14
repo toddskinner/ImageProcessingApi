@@ -5,6 +5,7 @@ import path from 'path';
 import fs from 'fs';
 
 const routes = express.Router();
+const directory = process.cwd();
 
 routes.get('/', async (req, res) => {
   let providedWidth: number = parseInt(req.query.width as string);
@@ -12,6 +13,9 @@ routes.get('/', async (req, res) => {
   let providedHeight: number = parseInt(req.query.height as string);
   console.log('Provided height = ' + providedHeight);
   let providedImageName: string = req.query.name as string;
+
+  console.log("directory" + directory);
+  console.log("__dirname: " +__dirname);
 
   if (!providedImageName || !providedWidth || !providedHeight) {
     return res
@@ -49,13 +53,13 @@ routes.get('/', async (req, res) => {
       );
   }
 
-  let fullImagePath: string = path.join(
-    '/Users/toddskinner/FullstackCourse/ImageProcessingApi/images/full/' +
+  let fullImagePath: string = path.join(directory +
+    '/images/full/' +
       providedImageName +
       '.jpg'
   );
-  let queriedThumbPath: string = path.join(
-    '/Users/toddskinner/FullstackCourse/ImageProcessingApi/images/thumbs/' +
+  let queriedThumbPath: string = path.join(directory +
+    '/images/thumbs/' +
       providedImageName +
       '_' +
       req.query.height +

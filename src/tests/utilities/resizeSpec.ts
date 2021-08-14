@@ -1,10 +1,10 @@
 import resize from '../../utilities/resize';
 
+const directory = process.cwd();
+
 describe('test the resize function', () => {
-  const inputImage: string =
-    '/Users/toddskinner/FullstackCourse/ImageProcessingApi/images/full/palmtunnel.jpg';
-  const outputImage: string =
-    '/Users/toddskinner/FullstackCourse/ImageProcessingApi/images/thumb/palmtunnel_500x500.jpg';
+  const inputImage: string = directory + '/images/full/palmtunnel.jpg';
+  const outputImage: string ='/images/thumb/palmtunnel_500x500.jpg';
   const height: number = 500;
   const width: number = 500;
 

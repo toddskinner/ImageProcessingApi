@@ -45,21 +45,16 @@ var resize = function (inputfile, outputPath, width, height) { return __awaiter(
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log('resizeImage function called');
-                console.log('File to be resized:' + inputfile);
-                console.log('New thumb path:' + outputPath);
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
+                _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, sharp_1.default(inputfile).resize(width, height).toFile(outputPath)];
-            case 2:
+            case 1:
                 _a.sent();
-                return [3 /*break*/, 4];
-            case 3:
+                return [3 /*break*/, 3];
+            case 2:
                 error_1 = _a.sent();
                 console.log(error_1.message);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/, outputPath];
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/, outputPath];
         }
     });
 }); };
